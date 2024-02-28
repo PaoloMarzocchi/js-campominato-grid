@@ -19,4 +19,8 @@
         border: 1px solid black;
         line-height: 80px;
     }
+
+    .red{
+        background-color: red;
+    }
 }
