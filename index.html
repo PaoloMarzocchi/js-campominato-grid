@@ -1,23 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Campominato</title>
     <link rel="stylesheet" href="./assets/css/style.css">
 </head>
+
 <body>
 
-    <header>
-        <button id="grid_generator">Genera</button>
+    <header id="site_header">
+        <img src="./assets/img/Logo.png" style="width: 2rem;" alt="Logo">
+        <h2>CAMPO MINATO</h2>
+        <form>
+            <select name="level" id="level">
+                <option value="easy">Easy</option>
+                <option value="medium">Medium</option>
+                <option value="hard">Hard</option>
+            </select>
+            <button type="submit" id="grid_generator">Genera</button>
+        </form>
     </header>
-    <main>
+    <main id="site_main">
         <div class="container">
-            
+
         </div>
     </main>
-    <footer></footer>
+    <footer id="site_footer">
+        <span>
+            Made with &hearts; by Me
+        </span>
+    </footer>
 
     <script src="./assets/js/main.js"></script>
 </body>
+
 </html>
