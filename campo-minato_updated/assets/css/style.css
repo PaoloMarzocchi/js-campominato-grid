@@ -90,6 +90,9 @@ body{
         .red {
             background-color:darkred;
         }
+        .blue {
+            background-color: blue;
+        }
     }
 }
 
