@@ -7,13 +7,13 @@ let numbCells;
 const generatorEl = document.querySelector('form');
 // - Creo un array per i 16 numeri dove saranno posizionati i funghi
 function ninjaArrayNumbers() {
-    
+
     const ninjasArray = [];
     const ninjaMaxNum = 100;
     while (ninjasArray.length < 16) {
-        const randomNumbVar = randomNumb(1,ninjaMaxNum);
+        const randomNumbVar = randomNumb(1, ninjaMaxNum);
         // - Controllo che nell'array i numeri creati non siano ripetuti
-        if(!ninjasArray.includes(randomNumbVar) ) {
+        if (!ninjasArray.includes(randomNumbVar)) {
             ninjasArray.push(randomNumbVar);
         }
     }
@@ -31,31 +31,31 @@ function ninjaArrayNumbers() {
     //console.log(cellEl); */
 
 
-    /* function randomNinjasCell() {
-        
-    } */
-   /*  const ninjasArray = ninjaArrayNumbers();
-    //console.log(randomNumbVar);
-    for (let i = 0; i < cellEl.length; i++) {
-        let cell = cellEl[i];
-        let cellNumb = Number(cell.innerHTML)
-        
-        if (ninjasArray.includes(cellNumb)) {
-            cell.classList.toggle('red');
-        } else{
-            cell.classList.toggle('blue');
-        }
-    }   
- */
-      
-        /* if(!cellEl.innerHTML.includes(ninjaCell)) {
-            //console.log(cellEl.innerHTML);
-            cellEl.innerHTML = ninjaCell;
-        } else{
-            element.innerHTML = "";
-        } */
-        
-    //}
+/* function randomNinjasCell() {
+    
+} */
+/*  const ninjasArray = ninjaArrayNumbers();
+ //console.log(randomNumbVar);
+ for (let i = 0; i < cellEl.length; i++) {
+     let cell = cellEl[i];
+     let cellNumb = Number(cell.innerHTML)
+     
+     if (ninjasArray.includes(cellNumb)) {
+         cell.classList.toggle('red');
+     } else{
+         cell.classList.toggle('blue');
+     }
+ }   
+*/
+
+/* if(!cellEl.innerHTML.includes(ninjaCell)) {
+    //console.log(cellEl.innerHTML);
+    cellEl.innerHTML = ninjaCell;
+} else{
+    element.innerHTML = "";
+} */
+
+//}
 
 //console.log(ninjasArray);
 
@@ -68,22 +68,30 @@ generatorEl.addEventListener('submit', function (e) {
 
     gridGenerator(level(levelValue));
     const ninjasArray = ninjaArrayNumbers();
+    flag = true;
     //- creo l'evento al click sulle celle 
     for (let i = 0; i < level(levelValue); i++) {
         let cellEl = document.querySelectorAll('div.cell');
         cellEl[i].addEventListener('click', function () {
-            this.innerHTML = i + 1;
-        let cellNumb = Number(this.innerHTML)
-        console.log(ninjasArray);
-        if (ninjasArray.includes(cellNumb)) {
-            this.classList.add('red');
-            flag = false
-        } else{
-            this.classList.add('blue');
-        }
-            
-            //- stampo in console il suo numero
-            //console.log(i + 1);
+            if (flag) {
+                //console.log(flag);
+                this.innerHTML = i + 1;
+                let cellNumb = Number(this.innerHTML)
+                console.log(ninjasArray);
+                if (ninjasArray.includes(cellNumb)) {
+                    this.classList.add('red');
+                    this.innerHTML = '🐱‍👤'
+                    flag = false
+                } else {
+                    this.classList.add('blue');
+                }
+            } else {
+                document.querySelector('.container').innerHTML = `<h1>HAI PERSO</h1>`
+
+                //- stampo in console il suo numero
+                //console.log(i + 1);
+
+            }
         })
     }
 })
@@ -113,8 +121,8 @@ function level(lvl) {
 }
 
 function randomNumb(min, max) {
-    return Math.floor(Math.random() * (max - min + 1) ) + min;
-  }
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
 
 
