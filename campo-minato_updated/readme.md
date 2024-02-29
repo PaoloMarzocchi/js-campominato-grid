@@ -18,3 +18,20 @@ con difficoltà 2 => 81 caselle, con un numero compreso tra 1 e 81, divise in 9 
 con difficoltà 3 => 49 caselle, con un numero compreso tra 1 e 49, divise in 7 caselle per 7 righe;     
 
 
+## STEPS
+- Creo un array per i 16 numeri dove saranno posizionati i funghi
+- Controllo che nell'array i numeri creati non siano ripetuti
+- inserisco i vari numeri appena creati casualmente nelle celle
+- se una di queste celle viene cliccata la coloro di rosso, se viene cliccata una cella senza il numero all'interno la coloro di azzurro
+- quando la cella cliccata ha un numero dell'array dei funghi blocco la partita
+- stampo l'esito della partita ed il punteggio(contando le volte che ha cliccato su celle vuote) 
+
+
+## TOOLS
+-let / const
+- []
+- .push
+- while(){}
+- if/ else
+- insertAdjacentHTML
+- classList.add()
