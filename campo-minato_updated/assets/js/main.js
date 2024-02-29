@@ -6,19 +6,7 @@ const containerEl = document.querySelector('.container');
 let numbCells;
 const generatorEl = document.querySelector('form');
 // - Creo un array per i 16 numeri dove saranno posizionati i funghi
-function ninjaArrayNumbers() {
 
-    const ninjasArray = [];
-    const ninjaMaxNum = 100;
-    while (ninjasArray.length < 16) {
-        const randomNumbVar = randomNumb(1, ninjaMaxNum);
-        // - Controllo che nell'array i numeri creati non siano ripetuti
-        if (!ninjasArray.includes(randomNumbVar)) {
-            ninjasArray.push(randomNumbVar);
-        }
-    }
-    return ninjasArray
-}
 //console.log(ninjasArray);
 
 
@@ -65,12 +53,13 @@ generatorEl.addEventListener('submit', function (e) {
     e.preventDefault();
 
     const levelValue = document.getElementById('level').value
-
-    gridGenerator(level(levelValue));
+    const gridCells = level(levelValue);
+    gridGenerator(gridCells);
     const ninjasArray = ninjaArrayNumbers();
     flag = true;
+    counter = 0;
     //- creo l'evento al click sulle celle 
-    for (let i = 0; i < level(levelValue); i++) {
+    for (let i = 0; i < gridCells; i++) {
         let cellEl = document.querySelectorAll('div.cell');
         cellEl[i].addEventListener('click', function () {
             if (flag) {
@@ -80,33 +69,57 @@ generatorEl.addEventListener('submit', function (e) {
                 console.log(ninjasArray);
                 if (ninjasArray.includes(cellNumb)) {
                     this.classList.add('red');
-                    this.innerHTML = '🐱‍👤'
-                    flag = false
+                    this.innerHTML = '🐱‍👤';
+                    flag = false;
                 } else {
                     this.classList.add('blue');
-                }
-            } else {
-                document.querySelector('.container').innerHTML = `<h1>HAI PERSO</h1>`
+                    counter++;
+                    console.log(cellEl.length);
+                    console.log(ninjasArray.length);
 
+                }
+            }  else {
+                document.querySelector('.container').innerHTML = `<h1>HAI PERSO! N° MOSSE: ${counter}</h1>`
+                console.log(counter);
+
+            } 
+            const winCells = cellEl.length - ninjasArray.length;
+            if (counter == winCells) {
+                document.querySelector('.container').innerHTML = `<h1>HAI VINTO!</h1>`
+                console.log(counter);
                 //- stampo in console il suo numero
                 //console.log(i + 1);
-
             }
         })
     }
 })
 
+/* else if (counter === (cellEl.length - ninjasArray.length)) {
+    document.querySelector('.container').innerHTML = `<h1>HAI VINTO</h1>`
+    console.log(counter);
+    //- stampo in console il suo numero
+    //console.log(i + 1);
+} */
 
+/**
+ * 
+ * @param {number} numMaxCells 
+ */
 function gridGenerator(numMaxCells) {
     containerEl.innerHTML = "";
     for (let i = 1; i <= numMaxCells; i++) {
-        let markup = `<div class="cell grid_${numMaxCells}"></div>`;
+        let markup = `<div class="cell grid_${numMaxCells}">${i}</div>`;
         containerEl.insertAdjacentHTML('beforeend', markup);
     }
 }
-
+/**
+ * 
+ * @param {string} lvl 
+ * @returns {number}
+ */
 function level(lvl) {
     switch (lvl) {
+        
         case 'easy':
             numbCells = 100;
             break;
@@ -119,12 +132,32 @@ function level(lvl) {
     }
     return numbCells
 }
-
+/**
+ * 
+ * @param {*} min 
+ * @param {*} max 
+ * @returns 
+ */
 function randomNumb(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
+/**
+ * @param {number} maxCells
+ * @returns {Array}
+ */
+function ninjaArrayNumbers(maxCells) {
 
-
+    const ninjasArray = [];
+    const ninjaMaxNum = 100;
+    while (ninjasArray.length < 16) {
+        const randomNumbVar = randomNumb(1, ninjaMaxNum);
+        // - Controllo che nell'array i numeri creati non siano ripetuti
+        if (!ninjasArray.includes(randomNumbVar)) {
+            ninjasArray.push(randomNumbVar);
+        }
+    }
+    return ninjasArray
+}
 
 
 
