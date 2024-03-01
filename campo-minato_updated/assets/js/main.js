@@ -17,6 +17,7 @@ generatorEl.addEventListener('submit', function (e) {
 
     // - Creo un array per i 16 numeri dove saranno posizionati i funghi
     const ninjasArray = ninjaArrayNumbers(gridCells);
+    console.log(ninjasArray);
     flag = true;
     counter = 0;
 
