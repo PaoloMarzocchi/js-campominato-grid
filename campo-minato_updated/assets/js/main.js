@@ -1,5 +1,4 @@
 const containerEl = document.querySelector('.container');
-let numbCells;
 const generatorEl = document.querySelector('form');
 
 
@@ -17,59 +16,89 @@ generatorEl.addEventListener('submit', function (e) {
 
     // - Creo un array per i 16 numeri dove saranno posizionati i funghi
     const ninjasArray = ninjaArrayNumbers(gridCells);
-    console.log(ninjasArray);
-    flag = true;
-    counter = 0;
+    
+    ninjaField(ninjasArray)
+    console.log(ninjasArray.sort((a, b) => a - b));
+    
 
     //- creo l'evento al click sulle celle 
 
     for (let i = 0; i < gridCells; i++) {
         let cellEl = document.querySelectorAll('div.cell');
-        cellEl[i].addEventListener('click', function () {
-            let endGameMessage = document.querySelector('h2');
-            if (flag) {
-
-                this.innerHTML = i + 1;
-                let cellNumb = Number(this.innerHTML)
-
-                // - confronto i numeri dell'array casuale con quelli della griglia
-                // - se una di queste celle viene cliccata la coloro di rosso, se viene cliccata una cella senza il numero all'interno la coloro di azzurro
-                if (ninjasArray.includes(cellNumb)) {
-                    this.classList.add('red');
-                    this.innerHTML = '🐱‍👤';
-                    // - quando la cella cliccata ha un numero dell'array dei funghi blocco la partita
-                    flag = false;
-
-                } else {
-                    this.classList.add('blue');
-                    counter++;
-                    console.log(cellEl.length);
-                    console.log(ninjasArray.length);
-
-                }
-            } else {
-                // - stampo l'esito della partita ed il punteggio(contando le volte che ha cliccato su celle vuote) 
-
-                endGameMessage.innerHTML = `<h1>HAI PERSO! N° MOSSE: ${counter}</h1>`;
-                endGameMessage.style.backgroundColor = 'darkred';
-                console.log(counter);
-
-            }
-
-            const winCells = cellEl.length - ninjasArray.length;
-
-            if (counter == winCells) {
-                endGameMessage.innerHTML = `<h1>HAI VINTO!`;
-                endGameMessage.style.backgroundColor = 'chartreuse';
-                console.log(counter);
-                //- stampo in console il suo numero
-                //console.log(i + 1);
-            }
-        })
+        cellEl[i].addEventListener('click', letsGame)
     }
 })
 
 
+
+/**
+ * Inserisce i ninja all'interno della griglia di gioco
+ * @param {Array} ninjaNumbs 
+ */
+function ninjaField(ninjaNumbs) {
+    let cellEl = document.querySelectorAll('div.cell');
+  
+    for (let i = 0; i < cellEl.length; i++) {
+        
+        if (ninjaNumbs.includes(i + 1)) {
+            cellEl[i].innerHTML = `<span class="d_none">🐱‍👤</span>`;
+        } else {
+            cellEl[i].innerHTML = `<span class="d_none">${i + 1}</span>`;
+
+        }
+
+    }
+}
+
+
+/**
+ * Gestisce il comportamento delle celle quando vengono attivate
+ */
+function letsGame() {
+    
+    let flag = true;
+    
+    let cellNumb = this.querySelector('span');
+    
+    if (cellNumb.innerHTML == "🐱‍👤") {
+        this.classList.add('red');
+        cellNumb.classList.remove('d_none');
+        flag=false;
+    } else {
+        this.classList.add('blue');
+        cellNumb.classList.remove('d_none');
+    }
+    let counter = document.getElementsByClassName('blue').length;
+    
+    gameOver(flag,counter);
+}
+
+
+/**
+ * Stampa Nella DOM il risultato della partita
+ * @param {boolean} flag 
+ * @param {number} counter 
+ */
+function gameOver(flag, counter){
+    let endGameMessage = document.querySelector('h2');
+    let cellEl = document.querySelectorAll('div.cell');
+    const winCells = cellEl.length - 16;
+    for (let i = 0; i < cellEl.length; i++) {
+        const cell = cellEl[i];
+        
+        if (flag && counter == winCells) {
+            endGameMessage.innerHTML = `<h1>HAI VINTO!`;
+            endGameMessage.style.backgroundColor = 'chartreuse';
+            cell.removeEventListener('click',letsGame)
+            
+        } else if (!flag) {
+            endGameMessage.innerHTML = `<h1>HAI PERSO! N° MOSSE: ${counter}</h1>`;
+            endGameMessage.style.backgroundColor = 'darkred';
+            cell.removeEventListener('click',letsGame)
+        }
+        
+    }
+}
 
 /**
  * Genera la griglia di gioco
@@ -78,7 +107,7 @@ generatorEl.addEventListener('submit', function (e) {
 function gridGenerator(numMaxCells) {
     containerEl.innerHTML = "";
     for (let i = 1; i <= numMaxCells; i++) {
-        let markup = `<div class="cell grid_${numMaxCells}">${i}</div>`;
+        let markup = `<div class="cell grid_${numMaxCells}"></div>`;
         containerEl.insertAdjacentHTML('beforeend', markup);
     }
 }
@@ -128,7 +157,5 @@ function ninjaArrayNumbers(maxCells) {
     }
     return ninjasArray
 }
-
-
 
 

@@ -29,6 +29,9 @@ body {
     aspect-ratio: 1;
 }
 
+.d_none{
+    display: none;
+}
 /* #endregion Utilities */
 
 /* #region Header */
